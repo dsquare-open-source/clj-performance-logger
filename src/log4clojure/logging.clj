@@ -69,10 +69,10 @@
     str))
 
 (defn- persist-log-entry [entry]
-  (couchdb/store databaseName (get-current-time-in-millis) entry))
+  (couchdb/update-value databaseName (get-current-time-in-millis) entry))
 
 (defn- persist-error-log-entry [entry]
-  (couchdb/store errorDatabaseName (get-current-time-in-millis) entry))
+  (couchdb/update-value errorDatabaseName (get-current-time-in-millis) entry))
 
 (defn update-log-map [originalMap {dynamic :dynamic-token fix :fix-token remove :remove :as newValue}]
   (let [bigKeyword (str fix ":" dynamic)

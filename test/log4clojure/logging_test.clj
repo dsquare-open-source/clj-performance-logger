@@ -66,7 +66,7 @@
                :remove "remove"}
         response {"666:999" {:old "value"}}]
     (log/update-log-map val-0 val-1) => response
-    (provided (couchdb/store "hps-logging" anything
+    (provided (couchdb/update-value "hps-logging" anything
                 {:dynamic-token 7307
                  :fix-token -259445176
                  :ts "2014-08-08T10:44:34.880+02:00"
