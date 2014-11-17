@@ -62,17 +62,13 @@
 
 (def error-log-agent (agent nil))
 
-(defn- get-current-time-in-millis []
-  (->
-    (DateTime.)
-    (.getMillis)
-    str))
+(defn uuid [] (str (java.util.UUID/randomUUID)))
 
 (defn- persist-log-entry [entry]
-  (couchdb/update-value databaseName (get-current-time-in-millis) entry))
+  (couchdb/update-value databaseName (uuid) entry))
 
 (defn- persist-error-log-entry [entry]
-  (couchdb/update-value errorDatabaseName (get-current-time-in-millis) entry))
+  (couchdb/update-value errorDatabaseName (uuid) entry))
 
 (defn update-log-map [originalMap {dynamic :dynamic-token fix :fix-token remove :remove :as newValue}]
   (let [bigKeyword (str fix ":" dynamic)
