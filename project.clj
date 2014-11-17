@@ -1,4 +1,4 @@
-(defproject log4clojure "0.1.1"
+(defproject log4clojure "0.1.2"
   :description "High Performance Logging for Clojure"
   :url "http://dsquare.be"
   :license {:name "Eclipse Public License"
