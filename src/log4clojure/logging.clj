@@ -196,13 +196,13 @@
                                        :namespace ~(str *ns*)
                                        :remove "remove cache"}
                                  log4clojure.logging/*logPrinter*)))
-                           (if (nil? (ex-data e#))
+                           (if (or (nil? (ex-data e#)) (nil? (:status (ex-data e#))))
                              '~return-message
                              (ex-data e#))))))
 
 (defmacro log-error-http [[function & args :as all] & functions]
   `(log-error-return {:status 500
                       :headers {"Content-Type" "application/json"}
-                      :body (json/write-str "There's been an Exception")}
+                      :body "\"There's been an Exception\""}
      ~all))
 
