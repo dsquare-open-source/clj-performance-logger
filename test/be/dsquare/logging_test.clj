@@ -1,7 +1,7 @@
-(ns log4clojure.logging-test
+(ns be.dsquare.logging-test
   (:use clojure.test
         midje.sweet)
-  (:require [log4clojure.logging :as log]
+  (:require [be.dsquare.logging :as log]
             [couchdb-extension.couchdb :as couchdb]))
 
 (fact "How to merge multiple logs when we already have an entry"

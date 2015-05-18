@@ -1,28 +1,22 @@
-(defproject log4clojure "0.1.3"
+(defproject clj-performance-logger "0.1.4-SNAPSHOT"
   :description "High Performance Logging for Clojure"
-  :url "http://dsquare.be"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :url "https://github.com/dsquare-open-source/clj-performance-logger"
+  :license {:name "BSD"
+            :url "http://www.opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [clj-http "0.7.8"]
                  [org.clojure/data.json "0.2.4"]
                  [couchdb-extension "0.1.0" ]
                  [com.ashafa/clutch "0.4.0-RC1" :exclusions [clj-http]]
-                 [ch.qos.logback/logback-classic "1.1.1"]]
+                 [ch.qos.logback/logback-classic "1.1.3"]]
 
   :plugins [[lein-midje "3.1.3"]
             [lein-pprint "1.1.1"]
+            [lein-cloverage "1.0.2"]
             [lein-ancient "0.5.5"]]
 
   :repl-options {:welcome (println "Welcome to the magical world of the repl!")
                  :port 4001}
-  ;  [lein-cloverage "1.0.3-SNAPSHOT"]
-  :deploy-repositories [["releases" {:url "http://nexus.dsquare.intra/content/repositories/hps-releases"
-                                     :sign-releases false}]
-                        ["snapshots" {:url "http://nexus.dsquare.intra/content/repositories/hps-snapshots"
-                                      :sign-releases false}]]
-  :mirrors {"central" {:name "nexus"
-                       :url "http://nexus.dsquare.intra/content/groups/public"}}
 
   :min-lein-version "2.0.0"
 
