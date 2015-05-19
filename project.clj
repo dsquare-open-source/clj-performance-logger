@@ -20,7 +20,7 @@
 
   :min-lein-version "2.0.0"
 
-  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "3.0.1"]
+  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"] [midje "1.6.3"]
                                   [peridot "0.4.0"]]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}
