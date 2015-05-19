@@ -9,7 +9,7 @@ clj-performance-logger is a [clojure](http://clojure.org) library that helps you
 
 ## Current Version
 
-[![Clojars Project](http://clojars.org/clj-performance-logger/latest-version.svg)]
+[![Clojars Project](http://clojars.org/clj-performance-logger/latest-version.svg)](http://clojars.org/clj-performance-logger)
 
 With Maven:
 
