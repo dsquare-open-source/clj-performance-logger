@@ -1,13 +1,13 @@
-(defproject clj-performance-logger "0.1.4-SNAPSHOT"
+(defproject clj-performance-logger "0.1.5-SNAPSHOT"
   :description "High Performance Logging for Clojure"
   :url "https://github.com/dsquare-open-source/clj-performance-logger"
   :license {:name "BSD"
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [clj-http "0.7.8"]
-                 [org.clojure/data.json "0.2.4"]
-                 [couchdb-extension "0.1.0" ]
-                 [com.ashafa/clutch "0.4.0-RC1" :exclusions [clj-http]]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [clj-http "1.1.2"]
+                 [org.clojure/data.json "0.2.6"]
+                 [couchdb-extension "0.1.4"]
+                 [com.ashafa/clutch "0.4.0" :exclusions [clj-http]]
                  [ch.qos.logback/logback-classic "1.1.3"]]
 
   :plugins [[lein-midje "3.1.3"]
@@ -20,9 +20,9 @@
 
   :min-lein-version "2.0.0"
 
-  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
+  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "3.0.1"]
                                   [ring-mock "0.1.5"] [midje "1.6.3"]
-                                  [peridot "0.2.2"]]}
+                                  [peridot "0.4.0"]]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}
              :1.6 {:dependencies [[org.clojure/clojure "1.6.0"]]}
              :1.7 {:dependencies [[org.clojure/clojure "1.7.0-alpha1"]]}}
