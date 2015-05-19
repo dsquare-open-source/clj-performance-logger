@@ -1,5 +1,5 @@
 # clj-Performance-Logger 
-[![Build Status](https://travis-ci.org/haduart/clj-performance-logger.svg)](https://travis-ci.org/haduart/clj-performance-logger) [![Dependency Status](https://www.versioneye.com/user/projects/555af96a634daacd41000182/badge.svg?style=flat)](https://www.versioneye.com/user/projects/555af96a634daacd41000182) [![Coverage Status](https://coveralls.io/repos/haduart/clj-performance-logger/badge.svg)](https://coveralls.io/r/haduart/clj-performance-logger) 
+[![Build Status](https://travis-ci.org/haduart/clj-performance-logger.svg)](https://travis-ci.org/haduart/clj-performance-logger) [![Dependency Status](https://www.versioneye.com/user/projects/555af96a634daacd41000182/badge.svg?style=flat)](https://www.versioneye.com/user/projects/555af96a634daacd41000182) [![Coverage Status](https://coveralls.io/repos/haduart/clj-performance-logger/badge.svg?branch=master)](https://coveralls.io/r/haduart/clj-performance-logger?branch=master) 
 
 ### Performance Logger Made Easy!
 [1.1]: http://i.imgur.com/tXSoThF.png (twitter icon with padding)
