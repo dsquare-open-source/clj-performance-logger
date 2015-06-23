@@ -51,7 +51,7 @@
         (->
           assocMap
           (get bigKeyword)
-          (dissoc :remove )
+          (dissoc :remove)
           (persist-log-entry))
         (dissoc originalMap bigKeyword)))))
 
@@ -81,95 +81,100 @@
 
 (defn destroy []
   (do
-    (remove-watch log-agent :logging )
-    (remove-watch error-log-agent :logging )))
+    (remove-watch log-agent :logging)
+    (remove-watch error-log-agent :logging)))
 
 (defn trace-log [msg]
-  (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
-    (merge be.dsquare.logging/*logPrinter* msg)))
+  (try (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
+             (merge be.dsquare.logging/*logPrinter* msg))
+       (catch Exception e# _)))
 
 (defmacro timelog [message [function & args :as all] & functions]
   `(binding [be.dsquare.logging/*logPrinter* {:fix-token (hash '~&form) :dynamic-token (rand-int 10000)}]
      (let [start# (. System (nanoTime))
            ret# ~all]
-       (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
-         (merge {:ts (str (DateTime.))
-                 :message '~message
-                 :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
-                 :namespace ~(str *ns*)
-                 :function '~function
-                 :remove "remove cache"}
-           be.dsquare.logging/*logPrinter*))
+       (try (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
+                  (merge {:ts         (str (DateTime.))
+                          :message    '~message
+                          :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
+                          :namespace  ~(str *ns*)
+                          :function   '~function
+                          :remove     "remove cache"}
+                         be.dsquare.logging/*logPrinter*))
+            (catch Exception e# _))
        ret#)))
 
 (defmacro timelog-complete [message [function & args :as all] & functions]
   `(binding [be.dsquare.logging/*logPrinter* {:fix-token (hash '~&form) :dynamic-token (rand-int 10000)}]
      (let [start# (. System (nanoTime))
            ret# ~all]
-       (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
-         (merge {:ts (str (DateTime.))
-                 :message '~message
-                 :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
-                 :namespace ~(str *ns*)
-                 :function '~function
-                 :args '~args
-                 :result ret#
-                 :form '~&form
-                 :env '~(str &env)
-                 :remove "remove cache"}
-           be.dsquare.logging/*logPrinter*))
+       (try (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
+                  (merge {:ts         (str (DateTime.))
+                          :message    '~message
+                          :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
+                          :namespace  ~(str *ns*)
+                          :function   '~function
+                          :args       '~args
+                          :result     ret#
+                          :form       '~&form
+                          :env        '~(str &env)
+                          :remove     "remove cache"}
+                         be.dsquare.logging/*logPrinter*))
+            (catch Exception e# _))
        ret#)))
 
 (defmacro log-error [exception-type [function & args :as all] & functions]
   `(try
      ~all
      (catch ~exception-type e#
-       (send be.dsquare.logging/error-log-agent be.dsquare.logging/update-map
-         {:ts (str (DateTime.))
-          :namespace ~(str *ns*)
-          :functionName (:name (meta #'~function))
-          :file (:file (meta #'~function))
-          :column (:column (meta #'~function))
-          :line (:line (meta #'~function))
-          :arglists (:arglists (meta #'~function))
-          :env '~(str &env)
-          :cause (.getCause e#)
-          :errorMessage (.getMessage e#)
-          :stackTrace (.toString e#)
-          :statTraceList (mapv #(str %) (.getStackTrace e#))}))))
+       (try (send be.dsquare.logging/error-log-agent be.dsquare.logging/update-map
+                  {:ts            (str (DateTime.))
+                   :namespace     ~(str *ns*)
+                   :functionName  (:name (meta #'~function))
+                   :file          (:file (meta #'~function))
+                   :column        (:column (meta #'~function))
+                   :line          (:line (meta #'~function))
+                   :arglists      (:arglists (meta #'~function))
+                   :env           '~(str &env)
+                   :cause         (.getCause e#)
+                   :errorMessage  (.getMessage e#)
+                   :stackTrace    (.toString e#)
+                   :statTraceList (mapv #(str %) (.getStackTrace e#))})
+            (catch Exception e# _)))))
 
 (defmacro log-error-return [return-message [function & args :as all] & functions]
   `(try
      ~all
      (catch Exception e# (do
-                           (send be.dsquare.logging/error-log-agent be.dsquare.logging/update-map
-                             {:ts (str (DateTime.))
-                              :namespace ~(str *ns*)
-                              :functionName (:name (meta #'~function))
-                              :file (:file (meta #'~function))
-                              :column (:column (meta #'~function))
-                              :line (:line (meta #'~function))
-                              :arglists (:arglists (meta #'~function))
-                              :env '~(str &env)
-                              :cause (.getCause e#)
-                              :errorMessage (.getMessage e#)
-                              :stackTrace (.toString e#)
-                              :statTraceList (mapv #(str %) (.getStackTrace e#))})
+                           (try (send be.dsquare.logging/error-log-agent be.dsquare.logging/update-map
+                                      {:ts            (str (DateTime.))
+                                       :namespace     ~(str *ns*)
+                                       :functionName  (:name (meta #'~function))
+                                       :file          (:file (meta #'~function))
+                                       :column        (:column (meta #'~function))
+                                       :line          (:line (meta #'~function))
+                                       :arglists      (:arglists (meta #'~function))
+                                       :env           '~(str &env)
+                                       :cause         (.getCause e#)
+                                       :errorMessage  (.getMessage e#)
+                                       :stackTrace    (.toString e#)
+                                       :statTraceList (mapv #(str %) (.getStackTrace e#))})
+                                (catch Exception e# _))
                            (when-not (nil? be.dsquare.logging/*logPrinter*)
                              (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
-                               (merge {:ts (str (DateTime.))
-                                       :message "Exception!"
-                                       :exception true
-                                       :namespace ~(str *ns*)
-                                       :remove "remove cache"}
-                                 be.dsquare.logging/*logPrinter*)))
+                                   (merge {:ts        (str (DateTime.))
+                                           :message   "Exception!"
+                                           :exception true
+                                           :namespace ~(str *ns*)
+                                           :remove    "remove cache"}
+                                          be.dsquare.logging/*logPrinter*)))
                            (if (or (nil? (ex-data e#)) (nil? (:status (ex-data e#))))
                              '~return-message
                              (ex-data e#))))))
 
 (defmacro log-error-http [[function & args :as all] & functions]
-  `(log-error-return {:status 500
+  `(log-error-return {:status  500
                       :headers {"Content-Type" "application/json"}
-                      :body "\"There's been an Exception\""}
-     ~all))
+                      :body    "\"There's been an Exception\""}
+                     ~all))
 

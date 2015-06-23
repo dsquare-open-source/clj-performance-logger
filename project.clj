@@ -1,6 +1,6 @@
 (defproject clj-performance-logger "0.1.5-SNAPSHOT"
   :description "High Performance Logging for Clojure"
-  :url "https://github.com/dsquare-open-source/clj-performance-logger"
+  :url "https://github.com/haduart/clj-performance-logger"
   :license {:name "BSD"
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[org.clojure/clojure "1.6.0"]
