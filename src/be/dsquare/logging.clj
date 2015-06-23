@@ -87,7 +87,7 @@
 (defn trace-log [msg]
   (try (send be.dsquare.logging/log-agent be.dsquare.logging/update-map
              (merge be.dsquare.logging/*logPrinter* msg))
-       (catch Exception e# _)))
+       (catch Exception e#)))
 
 (defmacro timelog [message [function & args :as all] & functions]
   `(binding [be.dsquare.logging/*logPrinter* {:fix-token (hash '~&form) :dynamic-token (rand-int 10000)}]
@@ -101,7 +101,7 @@
                           :function   '~function
                           :remove     "remove cache"}
                          be.dsquare.logging/*logPrinter*))
-            (catch Exception e# _))
+            (catch Exception e#))
        ret#)))
 
 (defmacro timelog-complete [message [function & args :as all] & functions]
@@ -120,7 +120,7 @@
                           :env        '~(str &env)
                           :remove     "remove cache"}
                          be.dsquare.logging/*logPrinter*))
-            (catch Exception e# _))
+            (catch Exception e#))
        ret#)))
 
 (defmacro log-error [exception-type [function & args :as all] & functions]
@@ -140,7 +140,7 @@
                    :errorMessage  (.getMessage e#)
                    :stackTrace    (.toString e#)
                    :statTraceList (mapv #(str %) (.getStackTrace e#))})
-            (catch Exception e# _)))))
+            (catch Exception e#)))))
 
 (defmacro log-error-return [return-message [function & args :as all] & functions]
   `(try
