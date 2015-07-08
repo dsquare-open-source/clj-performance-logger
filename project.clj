@@ -1,4 +1,4 @@
-(defproject clj-performance-logger "0.1.5-SNAPSHOT"
+(defproject clj-performance-logger "0.1.5"
   :description "High Performance Logging for Clojure"
   :url "https://github.com/haduart/clj-performance-logger"
   :license {:name "BSD"
