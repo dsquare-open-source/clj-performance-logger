@@ -1,9 +1,10 @@
-(defproject clj-performance-logger "0.1.5-SNAPSHOT"
+(defproject clj-performance-logger "0.1.5"
   :description "High Performance Logging for Clojure"
   :url "https://github.com/haduart/clj-performance-logger"
   :license {:name "BSD"
             :url "http://www.opensource.org/licenses/BSD-3-Clause"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [clj-http "1.1.2"]
                  [org.clojure/data.json "0.2.6"]
                  [couchdb-extension "0.1.4"]
@@ -22,9 +23,6 @@
 
   :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"] [midje "1.6.3"]
-                                  [peridot "0.4.0"]]}
-             :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}
-             :1.6 {:dependencies [[org.clojure/clojure "1.6.0"]]}
-             :1.7 {:dependencies [[org.clojure/clojure "1.7.0-alpha1"]]}}
+                                  [peridot "0.4.0"]]}}
 
   :aliases {"dev" ["do" "test"]})
