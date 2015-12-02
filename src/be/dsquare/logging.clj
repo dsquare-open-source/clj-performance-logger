@@ -20,16 +20,16 @@
 
 (def logger ^ch.qos.logback.classic.Logger (LoggerFactory/getLogger "hps"))
 
-(defmacro debug [& msg]
-  `(.debug logger (print-str ~@msg)))
+(defn debug [& msg]
+  (.debug logger (print-str msg)))
 
-(defmacro info [& msg]
-  `(.info logger (print-str ~@msg)))
+(defn info [& msg]
+  (.info logger (print-str msg)))
 
-(defmacro error [throwable & msg]
-  `(if (instance? Throwable ~throwable)
-     (.error logger (print-str ~@msg) ~throwable)
-     (.error logger (print-str ~throwable ~@msg))))
+(defn error [throwable & msg]
+  (if (instance? Throwable throwable)
+    (.error logger (print-str msg) throwable)
+    (.error logger (print-str throwable msg))))
 
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
@@ -90,12 +90,12 @@
        (let [start# (. System (nanoTime))
              ret# ~all]
          (>!! log-chan# (merge {:ts         (str (DateTime.))
-                                    :message    '~message
-                                    :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
-                                    :namespace  ~(str *ns*)
-                                    :function   '~function
-                                    :remove     "remove cache"}
-                                   *logPrinter*))
+                                :message    '~message
+                                :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
+                                :namespace  ~(str *ns*)
+                                :function   '~function
+                                :remove     "remove cache"}
+                               *logPrinter*))
          ret#))))
 
 (defmacro timelog-complete [message [function & args :as all] & functions]
@@ -107,16 +107,16 @@
        (let [start# (. System (nanoTime))
              ret# ~all]
          (>!! log-chan# (merge {:ts         (str (DateTime.))
-                                    :message    '~message
-                                    :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
-                                    :namespace  ~(str *ns*)
-                                    :function   '~function
-                                    :args       '~args
-                                    :result     ret#
-                                    :form       '~&form
-                                    :env        '~(str &env)
-                                    :remove     "remove cache"}
-                                   be.dsquare.logging/*logPrinter*))
+                                :message    '~message
+                                :timeMillis (/ (double (- (. System (nanoTime)) start#)) 1000000.0)
+                                :namespace  ~(str *ns*)
+                                :function   '~function
+                                :args       '~args
+                                :result     ret#
+                                :form       '~&form
+                                :env        '~(str &env)
+                                :remove     "remove cache"}
+                               be.dsquare.logging/*logPrinter*))
          ret#))))
 
 
@@ -130,17 +130,17 @@
              (update-error-logging (<! error-chan#))
              (close! error-chan#))
            (>!! error-chan# {:ts            (str (DateTime.))
-                               :namespace     ~(str *ns*)
-                               :functionName  (:name (meta #'~function))
-                               :file          (:file (meta #'~function))
-                               :column        (:column (meta #'~function))
-                               :line          (:line (meta #'~function))
-                               :arglists      (:arglists (meta #'~function))
-                               :env           '~(str &env)
-                               :cause         (.getCause e#)
-                               :errorMessage  (.getMessage e#)
-                               :stackTrace    (.toString e#)
-                               :statTraceList (mapv #(str %) (.getStackTrace e#))}))
+                             :namespace     ~(str *ns*)
+                             :functionName  (:name (meta #'~function))
+                             :file          (:file (meta #'~function))
+                             :column        (:column (meta #'~function))
+                             :line          (:line (meta #'~function))
+                             :arglists      (:arglists (meta #'~function))
+                             :env           '~(str &env)
+                             :cause         (.getCause e#)
+                             :errorMessage  (.getMessage e#)
+                             :stackTrace    (.toString e#)
+                             :statTraceList (mapv #(str %) (.getStackTrace e#))}))
          (catch Exception e#)))))
 
 (defmacro log-error-return [return-message [function & args :as all] & functions]
